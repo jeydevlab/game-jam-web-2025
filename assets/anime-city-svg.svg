@@ -1,0 +1,145 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sky Gradient Background -->
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#7676FF" />
+      <stop offset="100%" stop-color="#FFC8EF" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#skyGradient)" />
+  
+  <!-- Stars -->
+  <g id="stars">
+    <circle cx="100" cy="50" r="1" fill="white" />
+    <circle cx="200" cy="80" r="1.5" fill="white" />
+    <circle cx="300" cy="40" r="1" fill="white" />
+    <circle cx="400" cy="60" r="2" fill="white" />
+    <circle cx="500" cy="30" r="1" fill="white" />
+    <circle cx="600" cy="70" r="1.5" fill="white" />
+    <circle cx="700" cy="50" r="1" fill="white" />
+    <circle cx="150" cy="100" r="1" fill="white" />
+    <circle cx="250" cy="120" r="1.5" fill="white" />
+    <circle cx="350" cy="90" r="1" fill="white" />
+    <circle cx="450" cy="110" r="2" fill="white" />
+    <circle cx="550" cy="80" r="1" fill="white" />
+    <circle cx="650" cy="120" r="1.5" fill="white" />
+    <circle cx="750" cy="100" r="1" fill="white" />
+  </g>
+  
+  <!-- Moon -->
+  <circle cx="650" cy="120" r="50" fill="#FFF5D6" opacity="0.9" />
+  <circle cx="630" cy="100" r="15" fill="#FFF5D6" opacity="0.6" />
+  
+  <!-- Mountains in Background -->
+  <path d="M0,300 L150,150 L300,280 L450,180 L600,250 L800,180 L800,600 L0,600 Z" fill="#3E3B64" opacity="0.8" />
+  
+  <!-- Futuristic/Anime Style Buildings -->
+  <!-- Central Tower (Tokyo Tower-like) -->
+  <g id="centralTower">
+    <path d="M400,190 L420,450 L430,450 L450,190 Z" fill="#FF5252" />
+    <path d="M410,190 L440,190 L425,120 Z" fill="#FF5252" />
+    <rect x="415" y="250" width="20" height="20" fill="white" />
+    <rect x="415" y="300" width="20" height="20" fill="white" />
+    <rect x="415" y="350" width="20" height="20" fill="white" />
+    <rect x="415" y="400" width="20" height="20" fill="white" />
+    <circle cx="425" cy="150" r="5" fill="red" />
+  </g>
+  
+  <!-- Stylized Buildings on Left -->
+  <g id="leftBuildings">
+    <!-- Curved Futuristic Building -->
+    <path d="M100,320 Q130,280 160,320 L160,450 L100,450 Z" fill="#6C88C4" />
+    <rect x="110" y="340" width="10" height="10" fill="#FFF9C4" />
+    <rect x="130" y="340" width="10" height="10" fill="#FFF9C4" />
+    <rect x="110" y="360" width="10" height="10" fill="#FFF9C4" />
+    <rect x="130" y="360" width="10" height="10" fill="#FFF9C4" />
+    <rect x="110" y="380" width="10" height="10" fill="#FFF9C4" />
+    <rect x="130" y="380" width="10" height="10" fill="#FFF9C4" />
+    <rect x="110" y="400" width="10" height="10" fill="#FFF9C4" />
+    <rect x="130" y="400" width="10" height="10" fill="#FFF9C4" />
+    <rect x="110" y="420" width="10" height="10" fill="#FFF9C4" />
+    <rect x="130" y="420" width="10" height="10" fill="#FFF9C4" />
+    
+    <!-- Tall Thin Building -->
+    <rect x="200" y="250" width="40" height="200" fill="#9575CD" />
+    <rect x="210" y="260" width="20" height="30" fill="#E1BEE7" />
+    <rect x="210" y="300" width="20" height="30" fill="#E1BEE7" />
+    <rect x="210" y="340" width="20" height="30" fill="#E1BEE7" />
+    <rect x="210" y="380" width="20" height="30" fill="#E1BEE7" />
+    <rect x="210" y="420" width="20" height="30" fill="#E1BEE7" />
+    
+    <!-- Layered Building -->
+    <rect x="280" y="300" width="60" height="150" fill="#80DEEA" />
+    <rect x="290" y="320" width="40" height="20" fill="#26C6DA" />
+    <rect x="290" y="350" width="40" height="20" fill="#26C6DA" />
+    <rect x="290" y="380" width="40" height="20" fill="#26C6DA" />
+    <rect x="290" y="410" width="40" height="20" fill="#26C6DA" />
+    <polygon points="280,300 340,300 330,280 290,280" fill="#4DD0E1" />
+  </g>
+  
+  <!-- Stylized Buildings on Right -->
+  <g id="rightBuildings">
+    <!-- Dome Building (Anime Style) -->
+    <rect x="500" y="350" width="80" height="100" fill="#90CAF9" />
+    <path d="M500,350 Q540,270 580,350 Z" fill="#64B5F6" />
+    <rect x="520" y="400" width="40" height="50" fill="#64B5F6" />
+    <rect x="535" y="380" width="10" height="20" fill="#E3F2FD" />
+    
+    <!-- Layered Tech Building -->
+    <rect x="620" y="320" width="70" height="130" fill="#A5D6A7" />
+    <rect x="620" y="320" width="70" height="20" fill="#66BB6A" />
+    <rect x="620" y="350" width="70" height="20" fill="#66BB6A" />
+    <rect x="620" y="380" width="70" height="20" fill="#66BB6A" />
+    <rect x="620" y="410" width="70" height="20" fill="#66BB6A" />
+    <rect x="620" y="430" width="70" height="20" fill="#66BB6A" />
+    
+    <!-- Sci-Fi Tower -->
+    <rect x="730" y="280" width="30" height="170" fill="#FFD54F" />
+    <polygon points="730,280 760,280 745,240" fill="#FFB300" />
+    <rect x="740" y="300" width="10" height="130" fill="#FFB300" />
+    <circle cx="745" cy="260" r="5" fill="#FFECB3" />
+  </g>
+  
+  <!-- Foreground Small Buildings -->
+  <rect x="50" y="400" width="30" height="50" fill="#EF9A9A" />
+  <rect x="150" y="420" width="25" height="30" fill="#F48FB1" />
+  <rect x="350" y="430" width="40" height="20" fill="#CE93D8" />
+  <rect x="600" y="420" width="35" height="30" fill="#9FA8DA" />
+  
+  <!-- Ground -->
+  <rect x="0" y="450" width="800" height="150" fill="#3E3B64" />
+  
+  <!-- Road -->
+  <rect x="0" y="470" width="800" height="40" fill="#37474F" />
+  <rect x="20" y="489" width="40" height="2" fill="white" />
+  <rect x="100" y="489" width="40" height="2" fill="white" />
+  <rect x="180" y="489" width="40" height="2" fill="white" />
+  <rect x="260" y="489" width="40" height="2" fill="white" />
+  <rect x="340" y="489" width="40" height="2" fill="white" />
+  <rect x="420" y="489" width="40" height="2" fill="white" />
+  <rect x="500" y="489" width="40" height="2" fill="white" />
+  <rect x="580" y="489" width="40" height="2" fill="white" />
+  <rect x="660" y="489" width="40" height="2" fill="white" />
+  <rect x="740" y="489" width="40" height="2" fill="white" />
+  
+  <!-- Traffic Lights -->
+  <rect x="100" y="450" width="5" height="20" fill="#424242" />
+  <circle cx="102.5" cy="450" r="5" fill="red" />
+  <rect x="500" y="450" width="5" height="20" fill="#424242" />
+  <circle cx="502.5" cy="450" r="5" fill="green" />
+  
+  <!-- Neon Signs -->
+  <rect x="200" y="430" width="20" height="10" fill="#FF1744" />
+  <rect x="400" y="420" width="30" height="15" fill="#D500F9" />
+  <rect x="650" y="410" width="25" height="10" fill="#00E5FF" />
+  
+  <!-- Cherry Blossom Trees -->
+  <circle cx="80" cy="520" r="30" fill="#F8BBD0" opacity="0.8" />
+  <circle cx="300" cy="530" r="25" fill="#F8BBD0" opacity="0.8" />
+  <circle cx="550" cy="520" r="30" fill="#F8BBD0" opacity="0.8" />
+  <circle cx="720" cy="530" r="25" fill="#F8BBD0" opacity="0.8" />
+  <rect x="80" y="530" width="4" height="40" fill="#795548" />
+  <rect x="300" y="540" width="4" height="30" fill="#795548" />
+  <rect x="550" y="530" width="4" height="40" fill="#795548" />
+  <rect x="720" y="540" width="4" height="30" fill="#795548" />
+</svg>

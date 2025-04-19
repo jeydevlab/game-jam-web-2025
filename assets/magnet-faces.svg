@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   sodipodi:docname="magnet-faces.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.26012908"
+     inkscape:cx="572.79256"
+     inkscape:cy="292.16265"
+     inkscape:window-width="1536"
+     inkscape:window-height="795"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer7" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="triangle"
+     inkscape:groupmode="layer"
+     id="layer1" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer7"
+     inkscape:label="road"
+     style="display:inline">
+    <rect
+       style="fill:#fefefe;fill-opacity:0;stroke-width:23.6127;stroke-linecap:round;stroke-linejoin:round;paint-order:markers stroke fill"
+       id="rect10"
+       width="1402.4689"
+       height="299.19333"
+       x="0.71921486"
+       y="23.014872"
+       inkscape:export-filename="road.png"
+       inkscape:export-xdpi="14.442059"
+       inkscape:export-ydpi="14.442059" />
+    <rect
+       style="fill:#0a0a0a;fill-opacity:0;stroke-width:2.82357;stroke-linecap:round;stroke-linejoin:round;paint-order:markers stroke fill"
+       id="rect11"
+       width="10"
+       height="600"
+       x="0.71921486"
+       y="23.014872"
+       inkscape:export-filename="rigth-wall.png"
+       inkscape:export-xdpi="25.4"
+       inkscape:export-ydpi="25.4"
+       inkscape:label="right-corner" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="square-triangle" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="square"
+     style="display:none">
+    <g
+       inkscape:groupmode="layer"
+       id="layer5"
+       inkscape:label="red"
+       style="display:none">
+      <rect
+         style="fill:#f64319;fill-opacity:0.808818;stroke:#eb1a1a;stroke-width:1.99999;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+         id="rect1"
+         width="119.51199"
+         height="122.05479"
+         x="54.416096"
+         y="27.97089" />
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="g2"
+       inkscape:label="green"
+       transform="translate(6.3570206,6.6113014)"
+       style="display:none;fill:#6ef619;fill-opacity:0.785986">
+      <rect
+         style="fill:#6ef619;fill-opacity:0.785986;stroke:#35d20e;stroke-width:2.64583;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+         id="rect2"
+         width="119.51199"
+         height="122.05479"
+         x="54.416096"
+         y="27.97089" />
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="g3"
+       inkscape:label="blue"
+       transform="matrix(1.0106018,0,0,0.26871424,5.1465906,71.694479)"
+       style="display:none;fill:#20d7ed;fill-opacity:0.785986"
+       inkscape:export-filename="car.png"
+       inkscape:export-xdpi="26.665087"
+       inkscape:export-ydpi="26.665087">
+      <rect
+         style="fill:#20d7ed;fill-opacity:0.785986;stroke:#0eaed2;stroke-width:2.64583;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+         id="rect3"
+         width="118.00231"
+         height="76.633011"
+         x="54.416096"
+         y="27.97089" />
+      <rect
+         style="fill:#e7ed20;fill-opacity:0.785986;stroke-width:5.07723;stroke-linecap:round;stroke-linejoin:round;paint-order:markers stroke fill"
+         id="rect9"
+         width="55.103306"
+         height="72.864105"
+         x="86.494629"
+         y="-27.39502" />
+      <ellipse
+         style="fill:#e7ed20;fill-opacity:0.785986;stroke-width:5.07723;stroke-linecap:round;stroke-linejoin:round;paint-order:markers stroke fill"
+         id="path9"
+         cx="68.75589"
+         cy="111.70917"
+         rx="7.6742043"
+         ry="25.549751" />
+      <ellipse
+         style="fill:#e7ed20;fill-opacity:0.785986;stroke-width:5.07723;stroke-linecap:round;stroke-linejoin:round;paint-order:markers stroke fill"
+         id="path10"
+         cx="161.8528"
+         cy="106.97774"
+         rx="4.9064584"
+         ry="20.818317" />
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="g4"
+       inkscape:label="yellow"
+       transform="translate(6.3570206,6.6113014)"
+       style="display:inline;fill:#20d7ed;fill-opacity:0.785986"
+       inkscape:export-filename="block.png"
+       inkscape:export-xdpi="6.653688"
+       inkscape:export-ydpi="6.653688">
+      <rect
+         style="fill:#e7ed20;fill-opacity:0.785986;stroke:#d2d20e;stroke-width:2.64583;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+         id="rect4"
+         width="119.51199"
+         height="122.05479"
+         x="54.416096"
+         y="27.97089" />
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="layer3"
+       inkscape:label="yellow 1"
+       style="display:none" />
+    <g
+       inkscape:groupmode="layer"
+       id="layer6"
+       inkscape:label="yellow 2"
+       style="display:none" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="g9"
+     inkscape:label="doors"
+     style="display:none">
+    <g
+       inkscape:groupmode="layer"
+       id="g5"
+       inkscape:label="red"
+       style="display:none">
+      <rect
+         style="fill:#f64319;fill-opacity:0.808818;stroke:#eb1a1a;stroke-width:1.99999;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+         id="rect5"
+         width="119.51199"
+         height="122.05479"
+         x="54.416096"
+         y="27.97089" />
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="g6"
+       inkscape:label="green"
+       transform="translate(6.3570206,6.6113014)"
+       style="display:none;fill:#6ef619;fill-opacity:0.785986">
+      <rect
+         style="fill:#6ef619;fill-opacity:0.785986;stroke:#35d20e;stroke-width:2.64583;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+         id="rect6"
+         width="119.51199"
+         height="122.05479"
+         x="54.416096"
+         y="27.97089" />
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="g7"
+       inkscape:label="blue"
+       transform="translate(6.3570206,6.6113014)"
+       style="display:none;fill:#20d7ed;fill-opacity:0.785986">
+      <rect
+         style="fill:#20d7ed;fill-opacity:0.785986;stroke:#0eaed2;stroke-width:2.64583;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+         id="rect7"
+         width="119.51199"
+         height="122.05479"
+         x="54.416096"
+         y="27.97089" />
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="g8"
+       inkscape:label="yellow"
+       transform="translate(6.3570206,6.6113014)"
+       style="display:inline;fill:#20d7ed;fill-opacity:0.785986">
+      <rect
+         style="fill:#e7ed20;fill-opacity:0.785986;stroke:#d2d20e;stroke-width:2.64583;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+         id="rect8"
+         width="119.51199"
+         height="122.05479"
+         x="54.416096"
+         y="27.97089" />
+      <path
+         d="M 84.929914,52.890493 V 118.49476 H 146.21196 V 52.890493 Z"
+         style="display:inline;fill:#e7ed20;stroke-width:2.64583;stroke-linecap:round;stroke-linejoin:round;paint-order:markers stroke fill"
+         id="path17" />
+    </g>
+  </g>
+</svg>
