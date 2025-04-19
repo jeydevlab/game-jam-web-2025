@@ -553,12 +553,12 @@ const config = {
 
 document.body.style = `
     margin: 0;
-padding: 0;
-display: flex;
-justify-content: center;
-align-items: center;
-min-height: 100vh;
-background-color: #98E;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #98E;
 `
 ;
 
