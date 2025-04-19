@@ -1,8 +1,8 @@
 import { BlockConnection } from '../src/blockConnection.js'
 import Phaser from 'phaser';
 
-const DEFAULT_GAME_DURATION = 10;
-const INIT_CAR_POSITION = { x: 100, y: 500 };
+const DEFAULT_GAME_DURATION = 60;
+const INIT_CAR_POSITION = { x: 100, y: 700 };
 
 // Phaser 3 game with magnetic blocks - fixed version
 class MagneticBlocksGame extends Phaser.Scene {
@@ -45,7 +45,8 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.load.image('build-btn', 'assets/build-btn.png');
         this.load.image('timer-box', 'assets/timer-box.png');
         
-        this.load.image('car', 'assets/truck.png');
+        this.load.image('car', 'assets/truck-363-100.png');
+        // this.load.image('car', 'assets/truck.png');
         this.load.image('ground', 'assets/road.png');
         this.load.image('r-wall', 'assets/rigth-wall.png');
         //this.blockConnector.init();
@@ -65,17 +66,30 @@ class MagneticBlocksGame extends Phaser.Scene {
     }
     
     createVehicle() {
+        // const vertices = [
+        //     { x: 0, y: 150 },   // Bottom left vertex
+        //     { x: 545, y: 150 },    // Bottom right vertex
+        //     { x: 545, y: 0 },
+        //     { x: 440, y: 0},
+        //     { x: 440, y: 150-60},
+        //     { x: 440 - 20, y: 150-60 },
+        //     { x: 440 - 20, y: 150 - 90},
+        //     { x: 440 - 150, y: 150 - 90},
+        //     { x: 440 - 150, y: 150 - 60},
+        //     { x: 0, y: 150 - 60},
+        //     // Top left vertex (making the right angle)
+        // ];
         const vertices = [
-            { x: 0, y: 150 },   // Bottom left vertex
-            { x: 545, y: 150 },    // Bottom right vertex
-            { x: 545, y: 0 },
-            { x: 440, y: 0},
-            { x: 440, y: 150-60},
-            { x: 440 - 20, y: 150-60 },
-            { x: 440 - 20, y: 150 - 90},
-            { x: 440 - 150, y: 150 - 90},
-            { x: 440 - 150, y: 150 - 60},
-            { x: 0, y: 150 - 60},
+            { x: 0, y: 100 },   // Bottom left vertex
+            { x: 363, y: 100 },    // Bottom right vertex
+            { x: 363, y: 0 },
+            { x: 363 - 70, y: 0},
+            { x: 363 - 70, y: 100-40},
+            { x: 363 - 70 - 20, y: 100-40 },
+            { x: 363 - 70 - 20, y: 100 - 55},
+            { x: 363 - 70 - 100, y: 100 - 55},
+            { x: 363 - 70 - 100, y: 100 - 40},
+            { x: 0, y: 100 - 40},
             // Top left vertex (making the right angle)
         ];
 
@@ -542,6 +556,17 @@ const config = {
     },
     scene: [MagneticBlocksGame]
 };
+
+document.body.style = `
+    margin: 0;
+padding: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+background-color: #98E;
+`
+;
 
 // Initialize the game
 const game = new Phaser.Game(config);
