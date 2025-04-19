@@ -241,7 +241,6 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.input.on('dragend', this.onDragEnd, this);
         
         // Make all blocks draggable
-        // debugger;
         this.input.setDraggable(this.blocks);
         this.createInGameLayer();
         this.createIdleLayer();
@@ -324,9 +323,7 @@ class MagneticBlocksGame extends Phaser.Scene {
             this.runningCar = false;
         }, 4000);
     }
-    
-    deleteBlocks
-    
+
     start() {
         this.car.setPosition(INIT_CAR_POSITION.x, INIT_CAR_POSITION.y);
         this.createBlocs();
@@ -343,9 +340,6 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.matter.world.pause();
         clearInterval(this.textUpdateInterval);
         clearTimeout(this.endTimeout);
-        this.blocks.forEach(node => {
-            node.disableInteractive();
-        });
     }
     
     resume() {
