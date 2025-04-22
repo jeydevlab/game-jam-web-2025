@@ -1,8 +1,11 @@
 import { BlockConnection } from '../src/blockConnection.js'
 import Phaser from 'phaser';
+const GAME_NAME = "Stack 'n roll";
+
+document.title = GAME_NAME;
 
 const DEFAULT_GAME_DURATION = 60;
-const INIT_CAR_POSITION = { x: 100, y: 700 };
+const INIT_CAR_POSITION = { x: 250, y: 700 };
 
 // Phaser 3 game with magnetic blocks - fixed version
 class MagneticBlocksGame extends Phaser.Scene {
@@ -89,6 +92,9 @@ class MagneticBlocksGame extends Phaser.Scene {
             { x: 363 - 70 - 20, y: 100 - 55},
             { x: 363 - 70 - 100, y: 100 - 55},
             { x: 363 - 70 - 100, y: 100 - 40},
+            { x: 363 - 349, y: 100 - 40},
+            { x: 363 - 349, y: 100 - 90},
+            { x: 363 - 360, y: 100 - 90},
             { x: 0, y: 100 - 40},
             // Top left vertex (making the right angle)
         ];
@@ -103,6 +109,7 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.car.setFriction(0.2);
         this.car.setBounce(0);
         this.car.setMass(500);
+        this.car.setStatic(true);
     }
     
     /**
@@ -280,8 +287,8 @@ class MagneticBlocksGame extends Phaser.Scene {
     
     createInGameLayer() {
         const keyboard = this.add.image(150, 100, 'keyboard');
-        const timerBox = this.add.image(1000, 100, 'timer-box');
-        this.timerCountText = this.add.text(990, 65, `${this.timerCount}`, {
+        const timerBox = this.add.image(1080, 100, 'timer-box');
+        this.timerCountText = this.add.text(1060, 65, `${this.timerCount}`, {
             fontSize: '75px',
             fontStyle: 'bold',
             align: 'right'
@@ -312,6 +319,7 @@ class MagneticBlocksGame extends Phaser.Scene {
     
     gameOver() {
         clearInterval(this.textUpdateInterval);
+        this.car.setStatic(false);
         this.runningCar = true;
         this.pauseButton.setVisible(false);
         setTimeout(() => {
@@ -392,6 +400,7 @@ class MagneticBlocksGame extends Phaser.Scene {
         
         // Temporarily disable gravity for the dragged object
         gameObject.setStatic(true);
+        gameObject.setSensor(false);
     }
     
     onDrag(pointer, gameObject, dragX, dragY) {
@@ -407,6 +416,7 @@ class MagneticBlocksGame extends Phaser.Scene {
     onDragEnd(pointer, gameObject) {
         // Re-enable physics for the dragged object
         gameObject.setStatic(false);
+        gameObject.setSensor(true);
         this.draggedBlock = null;
     }
 
