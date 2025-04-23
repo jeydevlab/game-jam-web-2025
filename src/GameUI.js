@@ -7,6 +7,7 @@ const IMAGE_CONSTANTS = {
     'keyboard': 'keyboard',
     'build-btn': 'build-btn',
     'timer-box': 'timer-box',
+    'goal': 'goal'
 };
 
 export class GameUI {
@@ -17,23 +18,21 @@ export class GameUI {
     }
 
     newGame({timeCount, totalFallBlock}) {
+        this.pauseButton.setVisible(true);
+        this.goalSection.setVisible(true);
         this.inGameLayer.setVisible(true);
         this.updateTimerCount(timeCount);
         this.updateFallTotalBlock(totalFallBlock);
     }
     
-    show() {
-        this.inGameLayer.setVisible(true);
-    }
-    
     hide() {
         this.inGameLayer.setVisible(false);
-        this.pauseButton.setVisible(true);
         this.fallBlockLayer.setVisible(false);
     }
     
     timeout() {
         this.pauseButton.setVisible(false);
+        this.goalSection.setVisible(false);
         this.fallBlockLayer.setVisible(true);
     }
     
@@ -46,6 +45,8 @@ export class GameUI {
             fontStyle: 'bold',
             align: 'right'
         });
+        
+        this.goalSection = this.scene.add.image(170, 210, IMAGE_CONSTANTS.goal);
         
         this.startButton = this.scene.add.image(600, 100, IMAGE_CONSTANTS["start-btn"])
             .setInteractive()
@@ -69,21 +70,21 @@ export class GameUI {
         
         this.createFallBlockSection(initFallCount);
         this.inGameLayer.add([
-            this.startButton, this.pauseButton,
+            this.startButton, this.pauseButton, this.goalSection,
             this.fallBlockLayer,
             keyboard,
             timerBox, this.timerCountText]);
     }
     
     createFallBlockSection(initCount, totalCount) {
-        this.fallBlockBackground = this.scene.add.image(600, 100, IMAGE_CONSTANTS["fall-block"]);
-        this.fallBlockCountValue = this.scene.add.text(625, 65, `${initCount}`, {
-            fontSize: '65px',
+        this.fallBlockBackground = this.scene.add.image(1025, 200, IMAGE_CONSTANTS["fall-block"]);
+        this.fallBlockCountValue = this.scene.add.text(1050, 175, `${initCount}`, {
+            fontSize: '60px',
             fontStyle: 'bold',
             align: 'right'
         });
-        this.fallBlockTotalCountValue = this.scene.add.text(690, 65, `${totalCount}`, {
-            fontSize: '65px',
+        this.fallBlockTotalCountValue = this.scene.add.text(1125, 165, `${totalCount}`, {
+            fontSize: '60px',
             fontStyle: 'bold',
             align: 'right'
         });
@@ -100,6 +101,7 @@ export class GameUI {
         this.scene.load.image(IMAGE_CONSTANTS["start-btn"], 'assets/start-btn.png');
         this.scene.load.image(IMAGE_CONSTANTS["pause-btn"], 'assets/pause-btn.png');
         this.scene.load.image(IMAGE_CONSTANTS["fall-block"], 'assets/fall-block3.png');
+        this.scene.load.image(IMAGE_CONSTANTS.goal, 'assets/place-block.png');
     }
     
     updateTimerCount(value) {

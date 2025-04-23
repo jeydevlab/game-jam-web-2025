@@ -60,16 +60,16 @@ class MagneticBlocksGame extends Phaser.Scene {
     }
 
     createBlocs() {
-        this.createBlocks('blue-square-block');
-        this.createBlocks('yellow-square-block');
+        // this.createBlocks('blue-square-block');
+        // this.createBlocks('yellow-square-block');
         this.createBlocks("red-square-block");
         this.createBlocks("green-square-block");
         this.createDoor("blue-door");
         this.createDoor('red-door');
-        this.createSquareTriangle('blue-square-triangle-block');
-        this.createSquareTriangle('green-square-triangle-block');
-        this.createSquareTriangle('yellow-square-triangle-block');
-        this.createSquareTriangle('red-square-triangle-block');
+        // this.createSquareTriangle('blue-square-triangle-block');
+        // this.createSquareTriangle('green-square-triangle-block');
+        // this.createSquareTriangle('yellow-square-triangle-block');
+        // this.createSquareTriangle('red-square-triangle-block');
     }
     
     createVehicle() {
@@ -152,6 +152,7 @@ class MagneticBlocksGame extends Phaser.Scene {
         block.connections = []; // Track connections to other blocks
         block.setInteractive();
         block.type = 'right-triangle';
+        block.isBlockType = true;
 
         this.blocks.push(block);
         this.listenToPointerDown(block);
@@ -193,6 +194,7 @@ class MagneticBlocksGame extends Phaser.Scene {
         block.color = doorColor;
         block.connections = []; // Track connections to other blocks
         block.setInteractive();
+        block.isBlockType = true;
         
         this.blocks.push(block);
         this.listenToPointerDown(block);
@@ -219,7 +221,7 @@ class MagneticBlocksGame extends Phaser.Scene {
             block.isMagnetic = true;
             block.connections = []; // Track connections to other blocks
             block.setInteractive();
-            
+            block.isBlockType = true;
             this.blocks.push(block);
             this.listenToPointerDown(block);
         }
@@ -230,15 +232,19 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.blocks = [];
         this.joints = [];
         this.matter.add.mouseSpring();
-        this.matter.world.setBounds(0, 0, 1200, 745);
+        this.matter.world.setBounds(0, 0, 1200, 800);
 
         this.add.image(0, 0, 'background').setOrigin(0, 0);
 
         // Create ground
-        // this.ground = this.matter.add.image(400, 875, 'ground', null, { 
-        //     isStatic: true,
-        //     friction: 0.5
-        // });
+        this.ground = this.matter.add.rectangle(
+            600,
+            780,
+            1200,
+            100,
+            { isStatic: true }
+        );
+        this.ground.visible = false;
 
         // this.matter.add.image(800, 300, 'r-wall', null, { 
         //     isStatic: true,
@@ -255,6 +261,28 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.input.setDraggable(this.blocks);
         this.createInGameLayer();
         this.createIdleLayer();
+
+        const setBlockFalling = (block) => {
+            this.falledBlockCount++;
+            block.isFalling = true;
+        }
+
+        const handleCollisionStart = (event) => {
+            // Check each collision pair
+            event.pairs.forEach(({bodyA, bodyB}) => {
+                if (!this.runningCar) {
+                    return;
+                }
+                // Check if our object is involved in the collision
+                if (bodyA.gameObject && bodyA.gameObject.isBlockType && bodyB === this.ground && !bodyA.gameObject.isFalling) {
+                    setBlockFalling(bodyA.gameObject);
+                } else if (bodyA === this.ground && bodyB.gameObject && bodyB.gameObject.isBlockType && !bodyB.gameObject.isFalling) {
+                    setBlockFalling(bodyB.gameObject);
+                }
+            });
+        }
+
+        this.matter.world.on('collisionstart', handleCollisionStart);
     }
 
     createIdleLayer() {
@@ -294,11 +322,12 @@ class MagneticBlocksGame extends Phaser.Scene {
         // });
     }
     
-    gameOver() {
+    handleEndGame() {
         clearInterval(this.textUpdateInterval);
         this.car.setStatic(false);
         this.runningCar = true;
         this.gameUI.timeout();
+        
         setTimeout(() => {
             this.blocks.forEach(node => node.destroy());
             this.gameUI.hide();
@@ -310,9 +339,12 @@ class MagneticBlocksGame extends Phaser.Scene {
 
     start() {
         this.car.setPosition(INIT_CAR_POSITION.x, INIT_CAR_POSITION.y);
+        this.car.setStatic(true);
+        this.car.setRotation(0);
         this.createBlocs();
         this.inGame = true;
         this.timerCount = DEFAULT_GAME_DURATION;
+        this.falledBlockCount = 0;
         this.launchButton.setVisible(false);
         this.gameUI.newGame({ timeCount: this.timerCount, totalFallBlock: this.selectedLoseDifficulty });
         this.decrementTime();
@@ -340,7 +372,7 @@ class MagneticBlocksGame extends Phaser.Scene {
 
     startEndTimeout() {
         this.endTimeout = setTimeout(() => {
-            this.gameOver();
+            this.handleEndGame();
         }, this.timerCount * 1000);
     }
     
@@ -350,6 +382,7 @@ class MagneticBlocksGame extends Phaser.Scene {
         }
 
         if (this.runningCar) {
+            this.gameUI.updateFallBlock(this.falledBlockCount);
             this.launchCar();
         }
 
@@ -530,7 +563,7 @@ const config = {
         default: 'matter',
         matter: {
             gravity: { y: 1 },
-            debug: true
+            debug: false
         }
     },
     scene: [MagneticBlocksGame]
