@@ -6,7 +6,7 @@ document.title = GAME_NAME;
 
 const DEFAULT_GAME_DURATION = 10;
 const LOSE_BLOCK_COUNT_LEVEL = {
-    EASY: 5,
+    EASY: 3,
     NORMAL: 3,
     HARD: 1
 };
@@ -61,7 +61,7 @@ class MagneticBlocksGame extends Phaser.Scene {
 
     createBlocs() {
         // this.createBlocks('blue-square-block');
-        // this.createBlocks('yellow-square-block');
+        this.createBlocks('yellow-square-block');
         this.createBlocks("red-square-block");
         this.createBlocks("green-square-block");
         this.createDoor("blue-door");
@@ -73,19 +73,6 @@ class MagneticBlocksGame extends Phaser.Scene {
     }
     
     createVehicle() {
-        // const vertices = [
-        //     { x: 0, y: 150 },   // Bottom left vertex
-        //     { x: 545, y: 150 },    // Bottom right vertex
-        //     { x: 545, y: 0 },
-        //     { x: 440, y: 0},
-        //     { x: 440, y: 150-60},
-        //     { x: 440 - 20, y: 150-60 },
-        //     { x: 440 - 20, y: 150 - 90},
-        //     { x: 440 - 150, y: 150 - 90},
-        //     { x: 440 - 150, y: 150 - 60},
-        //     { x: 0, y: 150 - 60},
-        //     // Top left vertex (making the right angle)
-        // ];
         const vertices = [
             { x: 0, y: 100 },   // Bottom left vertex
             { x: 363, y: 100 },    // Bottom right vertex
