@@ -1,17 +1,23 @@
-import { BlockConnection } from '../src/blockConnection.js'
-import Phaser from 'phaser';
+// import Phaser from 'phaser';
+import {GameUI} from "../src/GameUI.js";
 const GAME_NAME = "Stack 'n roll";
 
 document.title = GAME_NAME;
 
-const DEFAULT_GAME_DURATION = 60;
+const DEFAULT_GAME_DURATION = 10;
+const LOSE_BLOCK_COUNT_LEVEL = {
+    EASY: 5,
+    NORMAL: 3,
+    HARD: 1
+};
+
 const INIT_CAR_POSITION = { x: 250, y: 700 };
 
 // Phaser 3 game with magnetic blocks - fixed version
 class MagneticBlocksGame extends Phaser.Scene {
     constructor() {
         super('MagneticBlocksScene');
-        
+        this.selectedLoseDifficulty = LOSE_BLOCK_COUNT_LEVEL.EASY;
         this.blocks = [];
         this.joints = [];
         this.car = null;
@@ -24,7 +30,8 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.selectedBlock = null;
         this.timerCount = DEFAULT_GAME_DURATION;
         this.inGame = false;
-        this.blockConnector = new BlockConnection(this, this.blocks, this.matter);
+        this.falledBlockCount = 0;
+        this.gameUI = new GameUI(this);
     }
     
     preload() {
@@ -42,17 +49,14 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.load.image('red-square-triangle-block', 'assets/red-square-triangle.png');
         this.load.image('yellow-square-triangle-block', 'assets/yellow-square-triangle.png');
         this.load.image('green-square-triangle-block', 'assets/green-square-triangle.png');
-        this.load.image('keyboard', 'assets/keyboard-template-2.png');
-        this.load.image('start-btn', 'assets/start-btn.png');
-        this.load.image('pause-btn', 'assets/pause-btn.png');
-        this.load.image('build-btn', 'assets/build-btn.png');
-        this.load.image('timer-box', 'assets/timer-box.png');
         
+        this.load.image('build-btn', 'assets/build-btn.png');
         this.load.image('car', 'assets/truck-363-100.png');
         // this.load.image('car', 'assets/truck.png');
         this.load.image('ground', 'assets/road.png');
         this.load.image('r-wall', 'assets/rigth-wall.png');
         //this.blockConnector.init();
+        this.gameUI.preload();
     }
 
     createBlocs() {
@@ -262,42 +266,15 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.idleLayer.add(this.launchButton);
         this.idleLayer.setVisible(true);
     }
-    
-    createInGameButton() {
-        this.startButton = this.add.image(600, 100, 'start-btn')
-            .setInteractive()
-            .setVisible(false);
 
-        this.startButton.on('pointerdown', () => {
-            this.resume();
-            this.pauseButton.setVisible(true);
-            this.startButton.setVisible(false);
-        });
-
-
-        this.pauseButton = this.add.image(600, 100, 'pause-btn')
-            .setInteractive()
-            .setVisible(true)
-            .on('pointerdown', () => {
-                this.pause();
-                this.pauseButton.setVisible(false);
-                this.startButton.setVisible(true);
-            });
-    }
-    
     createInGameLayer() {
-        const keyboard = this.add.image(150, 100, 'keyboard');
-        const timerBox = this.add.image(1080, 100, 'timer-box');
-        this.timerCountText = this.add.text(1060, 65, `${this.timerCount}`, {
-            fontSize: '75px',
-            fontStyle: 'bold',
-            align: 'right'
+        this.gameUI.createInGameButton({
+            onStart: () => { this.resume() },
+            onPause: () => { this.pause(); },
+            initTimerCount: this.timerCount,
+            initFallCount: this.falledBlockCount,
         });
-
-        this.createInGameButton();
-        this.inGameLayer = this.add.layer();
-        this.inGameLayer.add([keyboard, timerBox, this.timerCountText, this.pauseButton, this.startButton]);
-        this.inGameLayer.setVisible(false);
+        this.gameUI.hide();
 
         // Example: Add a key to rotate the currently selected block
         this.input.keyboard.on('keydown-R', () => {
@@ -310,22 +287,21 @@ class MagneticBlocksGame extends Phaser.Scene {
                 this.selectedBlock.angle = 0; // Rotate 0 degrees
             }
         });
-        this.input.keyboard.on('keydown-D', () => {
-            if (this.selectedBlock) {
-                this.selectedBlock.destroy();
-            }
-        });
+        // this.input.keyboard.on('keydown-D', () => {
+        //     if (this.selectedBlock) {
+        //         this.selectedBlock.destroy();
+        //     }
+        // });
     }
     
     gameOver() {
         clearInterval(this.textUpdateInterval);
         this.car.setStatic(false);
         this.runningCar = true;
-        this.pauseButton.setVisible(false);
+        this.gameUI.timeout();
         setTimeout(() => {
             this.blocks.forEach(node => node.destroy());
-            this.inGameLayer.setVisible(false);
-            this.pauseButton.setVisible(true);
+            this.gameUI.hide();
             this.launchButton.setVisible(true);
             this.inGame = false;
             this.runningCar = false;
@@ -338,8 +314,7 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.inGame = true;
         this.timerCount = DEFAULT_GAME_DURATION;
         this.launchButton.setVisible(false);
-        this.inGameLayer.setVisible(true);
-        this.timerCountText.setText(`${this.timerCount}s`);
+        this.gameUI.newGame({ timeCount: this.timerCount, totalFallBlock: this.selectedLoseDifficulty });
         this.decrementTime();
         this.startEndTimeout();
     }
@@ -371,7 +346,7 @@ class MagneticBlocksGame extends Phaser.Scene {
     
     update() {
         if (this.inGame) {
-            this.timerCountText.setText(`${this.timerCount}`);
+            this.gameUI.updateTimerCount(this.timerCount);
         }
 
         if (this.runningCar) {
