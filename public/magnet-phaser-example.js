@@ -291,7 +291,13 @@ class MagneticBlocksGame extends Phaser.Scene {
     createIdleLayer() {
         this.launchButton = this.add.image(600, 100, 'build-btn')
         .setInteractive()
-        .on('pointerdown', () => this.start());
+        .on('pointerdown', () => this.start())
+        .on('pointerover', () => {
+            this.launchButton.setScale(this.launchButton.scale + 0.1);
+        })
+        .on('pointerout', () => {
+            this.launchButton.setScale(this.launchButton.scale - 0.1);
+        });
         
         this.idleLayer = this.add.layer();
         this.idleLayer.add(this.launchButton);

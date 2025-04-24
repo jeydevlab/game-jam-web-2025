@@ -50,7 +50,13 @@ export class GameUI {
         
         this.startButton = this.scene.add.image(1080 - 150, 100, IMAGE_CONSTANTS["start-btn"])
             .setInteractive()
-            .setVisible(false);
+            .setVisible(false)
+            .on('pointerover', () => {
+                this.startButton.setScale(this.startButton.scale + 0.1);
+            })
+            .on('pointerout', () => {
+                this.startButton.setScale(this.startButton.scale - 0.1);
+            });
 
         this.startButton.on('pointerdown', () => {
             onStart();
@@ -65,7 +71,14 @@ export class GameUI {
                 onPause();
                 this.pauseButton.setVisible(false);
                 this.startButton.setVisible(true);
+            })
+            .on('pointerover', () => {
+                this.pauseButton.setScale(this.pauseButton.scale + 0.1);
+            })
+            .on('pointerout', () => {
+                this.pauseButton.setScale(this.pauseButton.scale - 0.1);
             });
+            
         
         this.createFallBlockSection(initFallCount);
         this.inGameLayer.add([
