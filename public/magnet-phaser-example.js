@@ -164,6 +164,14 @@ class MagneticBlocksGame extends Phaser.Scene {
                 this.selectedBlock.clearTint();
             }
         });
+
+        block.on('pointerover', () => {
+            block.setScale(block.scale + 0.1);
+        });
+
+        block.on('pointerout', () => {
+            block.setScale(block.scale - 0.1);
+        })
     }
     
     /**
@@ -314,12 +322,16 @@ class MagneticBlocksGame extends Phaser.Scene {
     
     handleEndGame() {
         clearInterval(this.textUpdateInterval);
+        this.blocks.forEach(block => {
+            block.disableInteractive(true);
+        });
         this.car.setStatic(false);
         this.runningCar = true;
         this.gameUI.timeout();
 
         setTimeout(() => {
             this.blocks.forEach(node => node.destroy());
+            this.blocks = [];
             this.gameUI.hide();
             this.launchButton.setVisible(true);
             this.inGame = false;
