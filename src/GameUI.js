@@ -38,7 +38,7 @@ export class GameUI {
     
     createInGameButton({ onStart, onPause, initTimerCount, initFallCount }) {
         this.inGameLayer = this.scene.add.layer();
-        const keyboard = this.scene.add.image(115, 100, IMAGE_CONSTANTS.keyboard);
+        const keyboard = this.scene.add.image(210, 100, IMAGE_CONSTANTS.keyboard);
         const timerBox = this.scene.add.image(1080, 100, IMAGE_CONSTANTS["timer-box"]);
         this.timerCountText = this.scene.add.text(1080, 65, `${initTimerCount}`, {
             fontSize: '75px',

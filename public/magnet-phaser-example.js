@@ -1,5 +1,8 @@
 // import Phaser from 'phaser';
 import {GameUI} from "../src/GameUI.js";
+import SoundManager from "../src/SoundManager.js";
+import Settings from "../src/Settings.js";
+
 const GAME_NAME = "Stack 'n roll";
 
 document.title = GAME_NAME;
@@ -57,6 +60,8 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.load.image('r-wall', 'assets/rigth-wall.png');
         //this.blockConnector.init();
         this.gameUI.preload();
+        SoundManager.preload(this);
+        Settings.preload(this);
     }
 
     createBlocs() {
@@ -148,14 +153,14 @@ class MagneticBlocksGame extends Phaser.Scene {
 
     listenToPointerDown(block) {
         block.on('pointerdown', () => {
-
+            SoundManager.playTake();
             this.selectedBlock = block;
-
             this.selectedBlock.setTint(0xff0000); 
         });
 
         block.on('pointerup', () => {
             if (this.selectedBlock) {
+                SoundManager.playPop();
                 this.selectedBlock.clearTint();
             }
         });
@@ -252,7 +257,8 @@ class MagneticBlocksGame extends Phaser.Scene {
         const setBlockFalling = (block) => {
             this.falledBlockCount++;
             block.isFalling = true;
-        }
+            // TODO GAME OVER OR WIN
+        };
 
         const handleCollisionStart = (event) => {
             // Check each collision pair
@@ -270,6 +276,8 @@ class MagneticBlocksGame extends Phaser.Scene {
         }
 
         this.matter.world.on('collisionstart', handleCollisionStart);
+        SoundManager.add(this);
+        Settings.add(this);
     }
 
     createIdleLayer() {
@@ -302,11 +310,6 @@ class MagneticBlocksGame extends Phaser.Scene {
                 this.selectedBlock.angle = 0; // Rotate 0 degrees
             }
         });
-        // this.input.keyboard.on('keydown-D', () => {
-        //     if (this.selectedBlock) {
-        //         this.selectedBlock.destroy();
-        //     }
-        // });
     }
     
     handleEndGame() {
@@ -314,14 +317,14 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.car.setStatic(false);
         this.runningCar = true;
         this.gameUI.timeout();
-        
+
         setTimeout(() => {
             this.blocks.forEach(node => node.destroy());
             this.gameUI.hide();
             this.launchButton.setVisible(true);
             this.inGame = false;
             this.runningCar = false;
-        }, 4000);
+        }, 5000);
     }
 
     start() {
@@ -354,6 +357,9 @@ class MagneticBlocksGame extends Phaser.Scene {
     decrementTime() {
         this.textUpdateInterval = setInterval(() => {
             this.timerCount--;
+            if (this.timerCount === 5) {
+                SoundManager.playTruck();
+            }
         }, 1000);
     }
 
@@ -373,20 +379,6 @@ class MagneticBlocksGame extends Phaser.Scene {
             this.launchCar();
         }
 
-        // Handle magnetic attractions between blocks
-        //this.applyMagneticForces();
-        
-        // Form solid connections when blocks are close enough
-        //this.formConnections();
-        // this.blockConnector.formConnections();
-        // this.blockConnector.update();
-
-        //this.renderConnections();
-
-        if (this.joints.length) {
-
-            console.log(this.joints);
-        }
     }
     
     onDragStart(pointer, gameObject) {
@@ -395,7 +387,6 @@ class MagneticBlocksGame extends Phaser.Scene {
         
         // Temporarily disable gravity for the dragged object
         gameObject.setStatic(true);
-        gameObject.setSensor(false);
     }
     
     onDrag(pointer, gameObject, dragX, dragY) {
@@ -409,10 +400,9 @@ class MagneticBlocksGame extends Phaser.Scene {
     }
     
     onDragEnd(pointer, gameObject) {
+        SoundManager.playPop();
         // Re-enable physics for the dragged object
         gameObject.setStatic(false);
-        gameObject.setSensor(true);
-        this.draggedBlock = null;
     }
 
     renderConnections() {
@@ -564,8 +554,10 @@ document.body.style = `
     align-items: center;
     min-height: 100vh;
     background-color: #98E;
+    cursor: pointer;
 `
 ;
+
 
 // Initialize the game
 const game = new Phaser.Game(config);
