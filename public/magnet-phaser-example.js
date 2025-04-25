@@ -2,6 +2,7 @@
 import {GameUI} from "../src/GameUI.js";
 import SoundManager from "../src/SoundManager.js";
 import Settings from "../src/Settings.js";
+import HomeUI from "../src/HomeUI.js";
 
 const GAME_NAME = "Stack 'n roll";
 
@@ -9,9 +10,9 @@ document.title = GAME_NAME;
 
 const DEFAULT_GAME_DURATION = 10;
 const LOSE_BLOCK_COUNT_LEVEL = {
-    EASY: 3,
-    NORMAL: 3,
-    HARD: 1
+    EASY: 7,
+    NORMAL: 5,
+    HARD: 3
 };
 
 const INIT_CAR_POSITION = { x: 250, y: 700 };
@@ -62,6 +63,7 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.gameUI.preload();
         SoundManager.preload(this);
         Settings.preload(this);
+        HomeUI.preload(this);
     }
 
     createBlocs() {
@@ -289,19 +291,32 @@ class MagneticBlocksGame extends Phaser.Scene {
     }
 
     createIdleLayer() {
-        this.launchButton = this.add.image(600, 100, 'build-btn')
-        .setInteractive()
-        .on('pointerdown', () => this.start())
-        .on('pointerover', () => {
-            this.launchButton.setScale(this.launchButton.scale + 0.1);
-        })
-        .on('pointerout', () => {
-            this.launchButton.setScale(this.launchButton.scale - 0.1);
-        });
+        // this.launchButton = this.add.image(600, 100, 'build-btn')
+        // .setInteractive()
+        // .on('pointerdown', () => this.start())
+        // .on('pointerover', () => {
+        //     this.launchButton.setScale(this.launchButton.scale + 0.1);
+        // })
+        // .on('pointerout', () => {
+        //     this.launchButton.setScale(this.launchButton.scale - 0.1);
+        // });
         
-        this.idleLayer = this.add.layer();
-        this.idleLayer.add(this.launchButton);
-        this.idleLayer.setVisible(true);
+        HomeUI.add(this, (value) => {
+            switch (value) {
+                case "easy":
+                    this.start(LOSE_BLOCK_COUNT_LEVEL.EASY);
+                    return;
+                case "medium":
+                    this.start(LOSE_BLOCK_COUNT_LEVEL.NORMAL);
+                    return;
+                case "hard":
+                    this.start(LOSE_BLOCK_COUNT_LEVEL.HARD);
+                    return;
+            }
+        });
+        // this.idleLayer = this.add.layer();
+        // this.idleLayer.add(this.launchButton);
+        // this.idleLayer.setVisible(true);
     }
 
     createInGameLayer() {
@@ -339,13 +354,18 @@ class MagneticBlocksGame extends Phaser.Scene {
             this.blocks.forEach(node => node.destroy());
             this.blocks = [];
             this.gameUI.hide();
-            this.launchButton.setVisible(true);
+            HomeUI.show();
+            //this.launchButton.setVisible(true);
             this.inGame = false;
             this.runningCar = false;
         }, 5000);
     }
 
-    start() {
+    /**
+     * @param {number} difficulty 
+     */
+    start(difficulty) {
+        this.selectedLoseDifficulty = difficulty;
         this.car.setPosition(INIT_CAR_POSITION.x, INIT_CAR_POSITION.y);
         this.car.setStatic(true);
         this.car.setRotation(0);
@@ -353,7 +373,6 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.inGame = true;
         this.timerCount = DEFAULT_GAME_DURATION;
         this.falledBlockCount = 0;
-        this.launchButton.setVisible(false);
         this.gameUI.newGame({ timeCount: this.timerCount, totalFallBlock: this.selectedLoseDifficulty });
         this.decrementTime();
         this.startEndTimeout();
