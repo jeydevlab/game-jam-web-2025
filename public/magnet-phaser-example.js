@@ -291,16 +291,6 @@ class MagneticBlocksGame extends Phaser.Scene {
     }
 
     createIdleLayer() {
-        // this.launchButton = this.add.image(600, 100, 'build-btn')
-        // .setInteractive()
-        // .on('pointerdown', () => this.start())
-        // .on('pointerover', () => {
-        //     this.launchButton.setScale(this.launchButton.scale + 0.1);
-        // })
-        // .on('pointerout', () => {
-        //     this.launchButton.setScale(this.launchButton.scale - 0.1);
-        // });
-        
         HomeUI.add(this, (value) => {
             switch (value) {
                 case "easy":
@@ -314,9 +304,6 @@ class MagneticBlocksGame extends Phaser.Scene {
                     return;
             }
         });
-        // this.idleLayer = this.add.layer();
-        // this.idleLayer.add(this.launchButton);
-        // this.idleLayer.setVisible(true);
     }
 
     createInGameLayer() {
@@ -353,6 +340,7 @@ class MagneticBlocksGame extends Phaser.Scene {
         setTimeout(() => {
             this.blocks.forEach(node => node.destroy());
             this.blocks = [];
+            this.gameUI.end();
             this.gameUI.hide();
             HomeUI.show();
             //this.launchButton.setVisible(true);

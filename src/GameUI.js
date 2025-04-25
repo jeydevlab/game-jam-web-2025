@@ -7,7 +7,8 @@ const IMAGE_CONSTANTS = {
     'keyboard': 'keyboard',
     'build-btn': 'build-btn',
     'timer-box': 'timer-box',
-    'goal': 'goal'
+    'goal': 'goal',
+    'roll': 'roll'
 };
 
 export class GameUI {
@@ -21,19 +22,35 @@ export class GameUI {
         this.pauseButton.setVisible(true);
         this.goalSection.setVisible(true);
         this.inGameLayer.setVisible(true);
+        this.roll.setVisible(false);
         this.updateTimerCount(timeCount);
         this.updateFallTotalBlock(totalFallBlock);
     }
-    
+
     hide() {
         this.inGameLayer.setVisible(false);
         this.fallBlockLayer.setVisible(false);
     }
     
     timeout() {
+        this.roll.setVisible(true);
         this.pauseButton.setVisible(false);
         this.goalSection.setVisible(false);
         this.fallBlockLayer.setVisible(true);
+        let count = 0;
+        this.rollScaling = setInterval(() => {
+            if (count % 3 === 0) {
+                this.roll.setScale(this.roll.scale + 1);
+            } else if (count % 3 === 1) {
+                this.roll.setScale(this.roll.scale - 1);
+            }
+            count++;
+        }, 250);
+    }
+    
+    end() {
+        clearInterval(this.rollScaling);
+        this.roll.setScale(1);
     }
     
     createInGameButton({ onStart, onPause, initTimerCount, initFallCount }) {
@@ -46,6 +63,7 @@ export class GameUI {
             align: 'right'
         });
         
+        this.roll = this.scene.add.image(600, 300, IMAGE_CONSTANTS.roll);
         this.goalSection = this.scene.add.image(600, 100, IMAGE_CONSTANTS.goal);
         
         this.startButton = this.scene.add.image(1080 - 150, 100, IMAGE_CONSTANTS["start-btn"])
@@ -85,7 +103,8 @@ export class GameUI {
             this.startButton, this.pauseButton, this.goalSection,
             this.fallBlockLayer,
             keyboard,
-            timerBox, this.timerCountText]);
+            timerBox, this.timerCountText,
+            this.roll]);
     }
     
     createFallBlockSection(initCount, totalCount) {
@@ -114,6 +133,7 @@ export class GameUI {
         this.scene.load.image(IMAGE_CONSTANTS["pause-btn"], 'assets/pause-btn.png');
         this.scene.load.image(IMAGE_CONSTANTS["fall-block"], 'assets/fall-block-blue.png');
         this.scene.load.image(IMAGE_CONSTANTS.goal, 'assets/place-block-small.png');
+        this.scene.load.image(IMAGE_CONSTANTS.roll, 'assets/ROLL.png');
     }
     
     updateTimerCount(value) {
