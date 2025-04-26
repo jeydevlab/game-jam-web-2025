@@ -87,6 +87,18 @@ class SoundManager {
         this.truck.play();
     }
 
+    pauseTruck() {
+        if (this.truck.isPlaying) {
+            this.truck.pause();
+        }
+    }
+    
+    resumeTruck() {
+        if (this.truck.isPaused) {
+            this.truck.resume();
+        }
+    }
+    
     playTake() {
         this.take.play();
     }

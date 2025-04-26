@@ -73,10 +73,10 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.createBlocks("green-square-block");
         this.createDoor("blue-door");
         this.createDoor('red-door');
-        // this.createSquareTriangle('blue-square-triangle-block');
-        // this.createSquareTriangle('green-square-triangle-block');
-        // this.createSquareTriangle('yellow-square-triangle-block');
-        // this.createSquareTriangle('red-square-triangle-block');
+        this.createSquareTriangle('blue-square-triangle-block');
+        this.createSquareTriangle('green-square-triangle-block');
+        this.createSquareTriangle('yellow-square-triangle-block');
+        this.createSquareTriangle('red-square-triangle-block');
     }
     
     createVehicle() {
@@ -208,7 +208,7 @@ class MagneticBlocksGame extends Phaser.Scene {
      */
     createBlocks(colorName) {
         // Create magnetic blocks
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < 3; i++) {
             let block = this.matter.add.image(
                 Phaser.Math.Between(500, 700),
                 Phaser.Math.Between(200, 400),
@@ -247,11 +247,6 @@ class MagneticBlocksGame extends Phaser.Scene {
             { isStatic: true }
         );
         this.ground.visible = false;
-
-        // this.matter.add.image(800, 300, 'r-wall', null, { 
-        //     isStatic: true,
-        //     friction: 0.5
-        // });
 
         this.createVehicle();
         
@@ -387,11 +382,13 @@ class MagneticBlocksGame extends Phaser.Scene {
     
     pause() {
         this.matter.world.pause();
+        SoundManager.pauseTruck();
         clearInterval(this.textUpdateInterval);
         clearTimeout(this.endTimeout);
     }
     
     resume() {
+        SoundManager.resumeTruck();
         this.matter.world.resume();
         this.timerCount--;
         this.decrementTime();
@@ -449,125 +446,6 @@ class MagneticBlocksGame extends Phaser.Scene {
         gameObject.setStatic(false);
     }
 
-    renderConnections() {
-        // Clear any previous graphics
-        if (this.connectionGraphics) {
-          this.connectionGraphics.clear();
-        } else {
-          this.connectionGraphics = this.add.graphics();
-        }
-        
-        this.connectionGraphics.lineStyle(2, 0x00ff00);
-        
-        // Draw lines between connected blocks
-        for (const block of this.blocks) {
-          for (const connectedBlock of block.connections) {
-            this.connectionGraphics.lineBetween(
-              block.x, block.y,
-              connectedBlock.x, connectedBlock.y
-            );
-          }
-        }
-      }
-
-    applyMagneticForces() {
-        // Apply magnetic attraction between blocks
-        for (let i = 0; i < this.blocks.length; i++) {
-            for (let j = i + 1; j < this.blocks.length; j++) {
-                const blockA = this.blocks[i];
-                const blockB = this.blocks[j];
-                
-                // Skip if blocks are already connected
-                if (this.areBlocksConnected(blockA, blockB)) {
-                    continue;
-                }
-                
-                // Skip if either block is being dragged
-                if (blockA === this.draggedBlock || blockB === this.draggedBlock) {
-                    continue;
-                }
-
-                // Calculate distance between blocks
-                const dx = blockB.x - blockA.x;
-                const dy = blockB.y - blockA.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                // Apply magnetic forces if within range
-                if (distance < this.magneticRange && distance > this.connectionThreshold) {
-                    // Calculate force based on distance (stronger as they get closer)
-                    const force = this.magnetForce * (1 - distance / this.magneticRange);
-                    
-                    // Apply force toward each other
-                    const forceX = (dx / distance) * force;
-                    const forceY = (dy / distance) * force;
-                    
-                    // Apply the forces
-                    blockA.applyForce({ x: forceX, y: forceY });
-                    blockB.applyForce({ x: -forceX, y: -forceY });
-                }
-            }
-        }
-    }
-    
-    formConnections() {
-        // Create physical joints between blocks that get close enough
-        for (let i = 0; i < this.blocks.length; i++) {
-            for (let j = i + 1; j < this.blocks.length; j++) {
-                const blockA = this.blocks[i];
-                const blockB = this.blocks[j];
-                
-                // Skip if blocks are already connected
-                if (this.areBlocksConnected(blockA, blockB)) {
-                    continue;
-                }
-                
-                // Calculate distance between blocks
-                const dx = blockB.x - blockA.x;
-                const dy = blockB.y - blockA.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                // If blocks are close enough, create a joint
-                if (distance <= this.connectionThreshold) {
-                    this.connectBlocks(blockA, blockB);
-                }
-            }
-        }
-    }
-    
-    connectBlocks(blockA, blockB) {
-        // Create a joint between blocks
-        const joint = this.matter.add.constraint(
-            blockA.body, 
-            blockB.body, 
-            0, // Length of 0 means they'll stay at current distance
-            1, // Stiffness of 1 means rigid connection
-            {
-                pointA: { x: 0, y: 0 },
-                pointB: { x: 0, y: 0 }
-            }
-        );
-        
-        // Record the connection in both blocks
-        blockA.connections.push(blockB);
-        blockB.connections.push(blockA);
-        
-        // Add joint to joints array for tracking
-        this.joints.push(joint);
-        console.log('add joints', joint)
-
-        // Visual feedback of connection (optional)
-        blockA.setTint(0x00ff00);
-        blockB.setTint(0x00ff00);
-        
-        // Play a connection sound (in your game)
-        // this.sound.play('connectSound');
-    }
-    
-    areBlocksConnected(blockA, blockB) {
-        // Check if blockB is in blockA's connections array
-        return blockA.connections.includes(blockB);
-    }
-    
     launchCar() {
         // Apply force to the car to make it crash into the structure
         const force = { x: 0.5, y: -0.05 };
