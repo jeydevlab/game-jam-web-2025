@@ -3,6 +3,9 @@ const Catalog = {
     medium: 'medium',
     hard: 'hard',
     title: 'title',
+    creditsBtn: 'credit-btn',
+    creditsPanel: 'credit-panel',
+    closeBtn: 'close-btn',
 };
 
 class HomeUI {
@@ -16,6 +19,9 @@ class HomeUI {
         scene.load.image(Catalog.easy, 'assets/easy-green.png');
         scene.load.image(Catalog.medium, 'assets/medium-yellow.png');
         scene.load.image(Catalog.hard, 'assets/hard.png');
+        scene.load.image(Catalog.creditsBtn, 'assets/credits-btn.png');
+        scene.load.image(Catalog.creditsPanel, 'assets/credits.png');
+        scene.load.image(Catalog.closeBtn, 'assets/close-btn.png');
     }
 
     /**
@@ -64,8 +70,35 @@ class HomeUI {
                 onClick("hard");
                 this.hide();
             });
+
+        this.creditPanel = scene.add.image(600, 350, Catalog.creditsPanel)
+            .setVisible(false);
         
-        this.layer.add([title, this.easy, this.medium, this.hard]);
+        this.creditBtn = scene.add.image(600, 700, Catalog.creditsBtn)
+            .setInteractive()
+            .on('pointerover', () => {
+                this.creditBtn.setScale(this.creditBtn.scale + 0.1);
+            })
+            .on('pointerout', () => {
+                this.creditBtn.setScale(this.creditBtn.scale - 0.1);
+            })
+            .on('pointerdown', () => {
+                if (this.creditPanel.visible) {
+                    this.easy.setInteractive();
+                    this.medium.setInteractive();
+                    this.hard.setInteractive();
+                    this.creditBtn.setTexture(Catalog.creditsBtn);
+                } else {
+                    this.easy.disableInteractive(true);
+                    this.medium.disableInteractive(true);
+                    this.hard.disableInteractive(true);
+                    this.creditBtn.setTexture(Catalog.closeBtn);
+                }
+                
+                this.creditPanel.setVisible(!this.creditPanel.visible);
+            });
+
+        this.layer.add([title, this.easy, this.medium, this.hard, this.creditBtn, this.creditPanel]);
     }
 
     show() {

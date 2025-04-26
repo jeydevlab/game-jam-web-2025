@@ -164,7 +164,7 @@ export class GameUI {
         this.scene.load.image(IMAGE_CONSTANTS["pause-btn"], 'assets/pause-btn.png');
         this.scene.load.image(IMAGE_CONSTANTS["fall-block"], 'assets/fall-block-blue.png');
         this.scene.load.image(IMAGE_CONSTANTS.goal, 'assets/place-block-small.png');
-        this.scene.load.image(IMAGE_CONSTANTS.roll, 'assets/ROLL.png');
+        this.scene.load.image(IMAGE_CONSTANTS.roll, 'assets/roll.png');
         this.scene.load.image(IMAGE_CONSTANTS["game-over"], 'assets/game-over.png');
         this.scene.load.image(IMAGE_CONSTANTS.win, 'assets/win.png');
     }

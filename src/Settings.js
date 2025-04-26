@@ -1,4 +1,4 @@
-import SoundManager, { VolumeLevels } from "./SoundManager.js";
+import SoundManager from "./SoundManager.js";
 
 const Catalog = {
     Button: 'button',

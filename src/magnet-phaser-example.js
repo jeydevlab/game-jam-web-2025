@@ -1,8 +1,8 @@
 // import Phaser from 'phaser';
-import {GameUI} from "../src/GameUI.js";
-import SoundManager from "../src/SoundManager.js";
-import Settings from "../src/Settings.js";
-import HomeUI from "../src/HomeUI.js";
+import {GameUI} from "./GameUI.js";
+import SoundManager from "./SoundManager.js";
+import Settings from "./scripts/Settings.js";
+import HomeUI from "./HomeUI.js";
 
 const GAME_NAME = "Stack 'n roll";
 
