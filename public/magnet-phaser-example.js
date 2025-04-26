@@ -8,7 +8,7 @@ const GAME_NAME = "Stack 'n roll";
 
 document.title = GAME_NAME;
 
-const DEFAULT_GAME_DURATION = 10;
+const DEFAULT_GAME_DURATION = 60;
 const LOSE_BLOCK_COUNT_LEVEL = {
     EASY: 7,
     NORMAL: 5,
