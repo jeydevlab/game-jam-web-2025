@@ -8,7 +8,9 @@ const IMAGE_CONSTANTS = {
     'build-btn': 'build-btn',
     'timer-box': 'timer-box',
     'goal': 'goal',
-    'roll': 'roll'
+    'roll': 'roll',
+    'game-over': 'game-over',
+    'win': 'win'
 };
 
 export class GameUI {
@@ -40,19 +42,43 @@ export class GameUI {
         let count = 0;
         this.rollScaling = setInterval(() => {
             if (count % 3 === 0) {
-                this.roll.setScale(this.roll.scale + 1);
+                this.roll.setScale(this.roll.scale + 0.1);
             } else if (count % 3 === 1) {
-                this.roll.setScale(this.roll.scale - 1);
+                this.roll.setScale(this.roll.scale - 0.1);
             }
             count++;
         }, 250);
     }
-    
+
     end() {
         clearInterval(this.rollScaling);
         this.roll.setScale(1);
     }
-    
+
+    async win() {
+        return new Promise(resolve => {
+            this.winImg.setVisible(true);
+            this.end();
+            this.roll.setVisible(false);
+            setTimeout(() => {
+                this.winImg.setVisible(false);
+                resolve();
+            }, 5000)
+        });
+    }
+
+    async lose() {
+        return new Promise(resolve => {
+            this.gameOver.setVisible(true);
+            this.end();
+            this.roll.setVisible(false);
+            setTimeout(() => {
+                this.gameOver.setVisible(false);
+                resolve();
+            }, 5000)
+        });
+    }
+
     createInGameButton({ onStart, onPause, initTimerCount, initFallCount }) {
         this.inGameLayer = this.scene.add.layer();
         const keyboard = this.scene.add.image(210, 100, IMAGE_CONSTANTS.keyboard);
@@ -62,8 +88,13 @@ export class GameUI {
             fontStyle: 'bold',
             align: 'right'
         });
-        
-        this.roll = this.scene.add.image(600, 300, IMAGE_CONSTANTS.roll);
+
+        this.gameOver = this.scene.add.image(600, 400, IMAGE_CONSTANTS["game-over"])
+            .setVisible(false);
+        this.winImg = this.scene.add.image(600, 400, IMAGE_CONSTANTS.win)
+            .setVisible(false);
+
+        this.roll = this.scene.add.image(600, 400, IMAGE_CONSTANTS.roll);
         this.goalSection = this.scene.add.image(600, 100, IMAGE_CONSTANTS.goal);
         
         this.startButton = this.scene.add.image(1080 - 150, 100, IMAGE_CONSTANTS["start-btn"])
@@ -134,6 +165,8 @@ export class GameUI {
         this.scene.load.image(IMAGE_CONSTANTS["fall-block"], 'assets/fall-block-blue.png');
         this.scene.load.image(IMAGE_CONSTANTS.goal, 'assets/place-block-small.png');
         this.scene.load.image(IMAGE_CONSTANTS.roll, 'assets/ROLL.png');
+        this.scene.load.image(IMAGE_CONSTANTS["game-over"], 'assets/game-over.png');
+        this.scene.load.image(IMAGE_CONSTANTS.win, 'assets/win.png');
     }
     
     updateTimerCount(value) {

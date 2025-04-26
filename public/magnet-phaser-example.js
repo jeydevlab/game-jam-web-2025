@@ -67,7 +67,7 @@ class MagneticBlocksGame extends Phaser.Scene {
     }
 
     createBlocs() {
-        // this.createBlocks('blue-square-block');
+        this.createBlocks('blue-square-block');
         this.createBlocks('yellow-square-block');
         this.createBlocks("red-square-block");
         this.createBlocks("green-square-block");
@@ -338,15 +338,34 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.gameUI.timeout();
 
         setTimeout(() => {
-            this.blocks.forEach(node => node.destroy());
-            this.blocks = [];
-            this.gameUI.end();
-            this.gameUI.hide();
-            HomeUI.show();
-            //this.launchButton.setVisible(true);
-            this.inGame = false;
             this.runningCar = false;
-        }, 5000);
+            if (this.falledBlockCount > this.selectedLoseDifficulty) {
+                this.loseRound();
+            } else {
+                this.winRound();
+            }
+        }, 3000);
+    }
+
+    loseRound() {
+        SoundManager.playLose();
+        this.gameUI.lose().then(() => this.backToLevelSelection());
+    }
+
+    winRound() {
+        SoundManager.playWin();
+        this.gameUI.win().then(() => {
+            this.backToLevelSelection();
+        })
+    }
+    
+    backToLevelSelection() {
+        this.blocks.forEach(node => node.destroy());
+        this.blocks = [];
+        this.gameUI.end();
+        this.gameUI.hide();
+        HomeUI.show();
+        this.inGame = false;
     }
 
     /**

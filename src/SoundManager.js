@@ -2,7 +2,9 @@ const Catalog = {
     TakeBlock: 'take-pop',
     PopBlock: 'pup-pop',
     Background: 'background',
-    Truck: 'truck'
+    Truck: 'truck',
+    Lose: 'lose',
+    Win: 'win',
 };
 
 export const VolumeLevels = {
@@ -12,10 +14,11 @@ export const VolumeLevels = {
 };
 
 const SoundVolumes = {
-    Background: -0.3,
+    Background: -0.4,
     Truck: -0.1,
     PopBlock: +0,
     TakeBlock: +0,
+    LoseBlock: -0.3,
 }
 
 class SoundManager {
@@ -33,6 +36,8 @@ class SoundManager {
         scene.load.audio(Catalog.TakeBlock, 'assets/sound/take-pop.mp3');
         scene.load.audio(Catalog.PopBlock, 'assets/sound/drop-pop.flac');
         scene.load.audio(Catalog.Truck, 'assets/sound/accelerates.mp3');
+        scene.load.audio(Catalog.Lose, 'assets/sound/lose_song.wav');
+        scene.load.audio(Catalog.Win, 'assets/sound/win_song.mp3');
     }
 
     /**
@@ -67,7 +72,15 @@ class SoundManager {
 
         this.pop.volumeLevel = SoundVolumes.PopBlock;
 
-        console.log(this.background.volume);
+        this.lose = scene.sound.add(Catalog.Lose, {
+            volume: this.volume + SoundVolumes.LoseBlock,
+        });
+        this.lose.volumeLevel = SoundVolumes.LoseBlock;
+
+        this.win = scene.sound.add(Catalog.Win, {
+            volume: this.volume + SoundVolumes.LoseBlock,
+        });
+        this.win.volumeLevel = SoundVolumes.LoseBlock;
     }
 
     playTruck() {
@@ -80,6 +93,14 @@ class SoundManager {
 
     playPop() {
         this.pop.play();
+    }
+
+    playLose() {
+        this.lose.play();
+    }
+    
+    playWin() {
+        this.win.play();
     }
 
     /**
@@ -108,13 +129,13 @@ class SoundManager {
      */
     changeBackgroundVolume(volumeLevel) {
         this.backgroundVolume = VolumeLevels[volumeLevel];
-        this.background.setVolume(this.backgroundVolume);
+        this.background.setVolume(this.backgroundVolume + this.background.volumeLevel);
 
         this.background.setMute(this.volume === VolumeLevels.mute || this.backgroundVolume === VolumeLevels.mute);
     }
 
     getSounds() {
-        return [this.pop, this.take, this.truck];
+        return [this.pop, this.take, this.truck, this.lose, this.win];
     }
 
     getNextMainVolume() {
