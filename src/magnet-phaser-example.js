@@ -174,26 +174,27 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.runningCar = true;
         this.gameUI.timeout();
 
-        setTimeout(() => {
+        setTimeout(async () => {
             this.runningCar = false;
+            SoundManager.toggleBackground();
             if (this.falledBlockCount > this.selectedLoseDifficulty) {
-                this.loseRound();
+                await this.loseRound();
             } else {
-                this.winRound();
+                await this.winRound();
             }
+            this.backToLevelSelection();
+            SoundManager.toggleBackground();
         }, 3000);
     }
 
-    loseRound() {
+    async loseRound() {
         SoundManager.playLose();
-        this.gameUI.lose().then(() => this.backToLevelSelection());
+        await this.gameUI.lose()
     }
 
-    winRound() {
+    async winRound() {
         SoundManager.playWin();
-        this.gameUI.win().then(() => {
-            this.backToLevelSelection();
-        })
+        await this.gameUI.win();
     }
     
     backToLevelSelection() {

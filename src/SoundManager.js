@@ -115,6 +115,10 @@ class SoundManager {
         this.win.play();
     }
 
+    toggleBackground() {
+        this.background.isPlaying ? this.background.pause() : this.background.play();
+    }
+
     /**
      * @param {'low' | 'high' | 'mute'} volumeLevel 
      */
