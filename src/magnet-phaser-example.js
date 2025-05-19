@@ -3,6 +3,7 @@ import {GameUI} from "./GameUI.js";
 import SoundManager from "./SoundManager.js";
 import Settings from "./Settings.js";
 import HomeUI from "./HomeUI.js";
+import Blocks from "./Blocks.js";
 
 const GAME_NAME = "Stack 'n roll";
 
@@ -22,14 +23,9 @@ class MagneticBlocksGame extends Phaser.Scene {
     constructor() {
         super('MagneticBlocksScene');
         this.selectedLoseDifficulty = LOSE_BLOCK_COUNT_LEVEL.EASY;
-        this.blocks = [];
-        this.joints = [];
         this.car = null;
-        this.magneticRange = 50; // Range at which blocks start attracting
-        this.magnetForce = 10; // Force multiplier for attraction
-        // this.magnetForce = 0.005; // Force multiplier for attraction
         this.connectionThreshold = 20; // Distance threshold for solid connection
-        this.runningCar = undefined;
+        this.runningCar = false;
         this.draggedBlock = null; // Track which block is being dragged
         this.selectedBlock = null;
         this.timerCount = DEFAULT_GAME_DURATION;
@@ -41,20 +37,7 @@ class MagneticBlocksGame extends Phaser.Scene {
     preload() {
         this.load.image('background', 'assets/background1200-900.png');
         this.load.image('block', 'assets/block.png');
-        this.load.image('yellow-square-block', 'assets/yellow-block-64.png');
-        this.load.image('red-square-block', 'assets/red-block-64.png');
-        this.load.image('blue-square-block', 'assets/blue-block-64.png');
-        this.load.image('green-square-block', 'assets/green-block-64.png');
-        this.load.image('green-door', 'assets/green-door.png');
-        this.load.image('yellow-door', 'assets/yellow-door.png');
-        this.load.image('red-door', 'assets/red-door.png');
-        this.load.image('blue-door', 'assets/blue-door.png');
-        this.load.image('blue-square-triangle-block', 'assets/blue-square-triangle.png');
-        this.load.image('red-square-triangle-block', 'assets/red-square-triangle.png');
-        this.load.image('yellow-square-triangle-block', 'assets/yellow-square-triangle.png');
-        this.load.image('green-square-triangle-block', 'assets/green-square-triangle.png');
-        
-        this.load.image('build-btn', 'assets/build-btn.png');
+
         this.load.image('car', 'assets/truck-363-100.png');
         // this.load.image('car', 'assets/truck.png');
         this.load.image('ground', 'assets/road.png');
@@ -64,19 +47,7 @@ class MagneticBlocksGame extends Phaser.Scene {
         SoundManager.preload(this);
         Settings.preload(this);
         HomeUI.preload(this);
-    }
-
-    createBlocs() {
-        this.createBlocks('blue-square-block');
-        this.createBlocks('yellow-square-block');
-        this.createBlocks("red-square-block");
-        this.createBlocks("green-square-block");
-        this.createDoor("blue-door");
-        this.createDoor('red-door');
-        this.createSquareTriangle('blue-square-triangle-block');
-        this.createSquareTriangle('green-square-triangle-block');
-        this.createSquareTriangle('yellow-square-triangle-block');
-        this.createSquareTriangle('red-square-triangle-block');
+        Blocks.preload(this);
     }
     
     createVehicle() {
@@ -109,130 +80,8 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.car.setMass(500);
         this.car.setStatic(true);
     }
-    
-    /**
-     * 
-     * @param {'blue-square-triangle-block' | 'red-square-triangle-block' | 'yellow-square-triangle-block' | 'green-square-triangle-block'} triangleColor 
-     */
-    createSquareTriangle(triangleColor) {
-        const height = 64;
-        const width = 64;
-        const vertices = [
-            { x: -width/2, y: height/2 },   // Bottom left vertex
-            { x: width/2, y: height/2 },    // Bottom right vertex
-            { x: -width/2, y: -height/2 }   // Top left vertex (making the right angle)
-        ];
-
-        let block = this.matter.add.image(
-            Phaser.Math.Between(500, 1100),
-            Phaser.Math.Between(200, 400),
-            triangleColor,
-            null,
-            {
-            shape: {
-                type: 'fromVerts',
-                verts: vertices,
-                flagInternal: true
-            }}
-        );
-        
-        block.setFriction(0.8);
-        block.setBounce(0);
-        block.setMass(1);
-        
-        // Add custom properties for magnetism
-        block.isMagnetic = true;
-        block.color = triangleColor;
-        block.connections = []; // Track connections to other blocks
-        block.setInteractive();
-        block.type = 'right-triangle';
-        block.isBlockType = true;
-
-        this.blocks.push(block);
-        this.listenToPointerDown(block);
-
-    }
-
-    listenToPointerDown(block) {
-        block.on('pointerdown', () => {
-            SoundManager.playTake();
-            this.selectedBlock = block;
-            this.selectedBlock.setTint(0xff0000); 
-        });
-
-        block.on('pointerup', () => {
-            if (this.selectedBlock) {
-                SoundManager.playPop();
-                this.selectedBlock.clearTint();
-            }
-        });
-
-        block.on('pointerover', () => {
-            block.setScale(block.scale + 0.1);
-        });
-
-        block.on('pointerout', () => {
-            block.setScale(block.scale - 0.1);
-        })
-    }
-    
-    /**
-     * 
-     * @param {'green-door' | 'red-door' | 'yellow-door' | 'blue-door'} doorColor 
-     */
-    createDoor(doorColor) {
-        let block = this.matter.add.image(
-            Phaser.Math.Between(500, 1100),
-            Phaser.Math.Between(200, 400),
-            doorColor
-        );
-        
-        block.setFriction(0.8);
-        block.setBounce(0);
-        block.setMass(1);
-        
-        // Add custom properties for magnetism
-        block.isMagnetic = true;
-        block.color = doorColor;
-        block.connections = []; // Track connections to other blocks
-        block.setInteractive();
-        block.isBlockType = true;
-        
-        this.blocks.push(block);
-        this.listenToPointerDown(block);
-    }
-
-    /**
-     * 
-     * @param {'yellow-square-block' | 'blue-square-block' | 'green-square-block' | 'red-square-block'} colorName
-     */
-    createBlocks(colorName) {
-        // Create magnetic blocks
-        for (let i = 0; i < 3; i++) {
-            let block = this.matter.add.image(
-                Phaser.Math.Between(500, 700),
-                Phaser.Math.Between(200, 400),
-                colorName
-            );
-            
-            block.setFriction(0.8);
-            block.setBounce(0);
-            block.setMass(1);
-            
-            // Add custom properties for magnetism
-            block.isMagnetic = true;
-            block.connections = []; // Track connections to other blocks
-            block.setInteractive();
-            block.isBlockType = true;
-            this.blocks.push(block);
-            this.listenToPointerDown(block);
-        }
-    }
 
     create() {
-        // Reset arrays when scene starts/restarts
-        this.blocks = [];
-        this.joints = [];
         this.matter.add.mouseSpring();
         this.matter.world.setBounds(0, 0, 1200, 800);
 
@@ -244,7 +93,7 @@ class MagneticBlocksGame extends Phaser.Scene {
             780,
             1200,
             100,
-            { isStatic: true }
+            { isStatic: true, friction: 0.01 },
         );
         this.ground.visible = false;
 
@@ -255,14 +104,13 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.input.on('dragend', this.onDragEnd, this);
         
         // Make all blocks draggable
-        this.input.setDraggable(this.blocks);
+        Blocks.setDraggable(this);
         this.createInGameLayer();
         this.createIdleLayer();
 
         const setBlockFalling = (block) => {
             this.falledBlockCount++;
             block.isFalling = true;
-            // TODO GAME OVER OR WIN
         };
 
         const handleCollisionStart = (event) => {
@@ -312,22 +160,16 @@ class MagneticBlocksGame extends Phaser.Scene {
 
         // Example: Add a key to rotate the currently selected block
         this.input.keyboard.on('keydown-R', () => {
-            if (this.selectedBlock) {
-                this.selectedBlock.angle += 90; // Rotate 90 degrees
-            }
+            Blocks.handleKeyboardEvents('keydown-R');
         });
         this.input.keyboard.on('keydown-E', () => {
-            if (this.selectedBlock) {
-                this.selectedBlock.angle = 0; // Rotate 0 degrees
-            }
+            Blocks.handleKeyboardEvents('keydown-E');
         });
     }
     
     handleEndGame() {
         clearInterval(this.textUpdateInterval);
-        this.blocks.forEach(block => {
-            block.disableInteractive(true);
-        });
+        Blocks.disableBlocks();
         this.car.setStatic(false);
         this.runningCar = true;
         this.gameUI.timeout();
@@ -355,8 +197,7 @@ class MagneticBlocksGame extends Phaser.Scene {
     }
     
     backToLevelSelection() {
-        this.blocks.forEach(node => node.destroy());
-        this.blocks = [];
+        Blocks.clear();
         this.gameUI.end();
         this.gameUI.hide();
         HomeUI.show();
@@ -371,7 +212,7 @@ class MagneticBlocksGame extends Phaser.Scene {
         this.car.setPosition(INIT_CAR_POSITION.x, INIT_CAR_POSITION.y);
         this.car.setStatic(true);
         this.car.setRotation(0);
-        this.createBlocs();
+        Blocks.add(this);
         this.inGame = true;
         this.timerCount = DEFAULT_GAME_DURATION;
         this.falledBlockCount = 0;
