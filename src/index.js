@@ -1,4 +1,4 @@
-// import Phaser from 'phaser';
+import Phaser from 'phaser';
 import {GameUI} from "./GameUI.js";
 import SoundManager from "./SoundManager.js";
 import Settings from "./Settings.js";
@@ -209,6 +209,7 @@ class MagneticBlocksGame extends Phaser.Scene {
      * @param {number} difficulty 
      */
     start(difficulty) {
+        SoundManager.playPop();
         this.selectedLoseDifficulty = difficulty;
         this.car.setPosition(INIT_CAR_POSITION.x, INIT_CAR_POSITION.y);
         this.car.setStatic(true);
@@ -321,7 +322,6 @@ document.body.style = `
     cursor: pointer;
 `
 ;
-
 
 // Initialize the game
 const game = new Phaser.Game(config);
