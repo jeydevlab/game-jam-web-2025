@@ -206,12 +206,12 @@ class Blocks {
         if (!this.selectedBlock) {
             return;
         }
-        if (keyboardKey === 'keydown-E') {
+        if (keyboardKey === 'keydown-R') {
             this.selectedBlock.angle += 90; // Rotate 90 degrees
             return;
         }
         
-        if (keyboardKey === 'keydown-R') {
+        if (keyboardKey === 'keydown-E') {
             this.selectedBlock.angle = 0;
         }
     }
